@@ -1,20 +1,53 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import 'react-native-gesture-handler';
+import React from 'react';
+import { createStackNavigator } from '@react-navigation/stack';
+import { NavigationContainer } from '@react-navigation/native';
+import { StyleSheet } from 'react-native';
+import { Icon } from 'react-native-elements';
+
+// Screens
+import HomeScreen from './src/screens/Home';
+import NewAppt from './src/screens/NewAppt';
+
+const Stack = createStackNavigator();
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator
+        screenOptions={{
+          headerStyle: {
+            backgroundColor: '#000000'
+          },
+              headerTintColor: '#00ffff'
+          }} 
+        initialRouteName="Home"
+      >
+
+        <Stack.Screen 
+            name="Home" 
+            component={HomeScreen} 
+            options={({ navigation }) => ({
+                headerRight: () => (
+                  <Icon 
+                    name="plus" 
+                    type="feather" 
+                    color="#00ffff"
+                    style={style.headerIcon}
+                    onPress={() => navigation.navigate('New Appointment')}
+                  />
+                )
+            })}
+        />
+        <Stack.Screen name="New Appointment" component={NewAppt}/>
+
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+const style = StyleSheet.create({
+  headerIcon: {
+    marginRight: 20
+  }
 });
